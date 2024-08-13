@@ -5,7 +5,7 @@ metadata:
 spec:
   upstream:
     repo: nephio-oai-rke-packages
-    package: oai-cp-operators-package
+    package: oai-cp-operators
     revision: main
   downstream:
     repo: rke-mgmt
