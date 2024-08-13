@@ -1,0 +1,16 @@
+apiVersion: config.porch.kpt.dev/v1alpha1
+kind: PackageVariant
+metadata:
+  name: oai-udr
+spec:
+  upstream:
+    repo: nephio-oai-rke-packages
+    package: oai-udr
+    revision: main
+  downstream:
+    repo: rke-mgmt
+    package: oai-udr
+  annotations:
+    approval.nephio.org/policy: initial
+  injectors:
+  - name: core

@@ -1,0 +1,16 @@
+apiVersion: config.porch.kpt.dev/v1alpha1
+kind: PackageVariant
+metadata:
+  name: oai-nrf
+spec:
+  upstream:
+    repo: nephio-oai-rke-packages
+    package: oai-nrf
+    revision: main
+  downstream:
+    repo: rke-mgmt
+    package: oai-nrf
+  annotations:
+    approval.nephio.org/policy: initial
+  injectors:
+  - name: core
