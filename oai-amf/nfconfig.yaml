@@ -21,7 +21,7 @@ spec:
                 dnnInfo:
                   - name: internet
                     sessionType: ipv4
-                    dns: 172.21.3.100
+                    dns: 8.8.8.8
     - apiVersion: cellular.nephio.org/v1alpha1
       kind: ServedGUAMI
       metadata:

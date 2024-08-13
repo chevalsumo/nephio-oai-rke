@@ -20,22 +20,26 @@ metadata:
   name: amf-core-n2
   namespace: amf-example
 spec:
-  config: |
+  config: '{
+  "cniVersion": "0.3.1",
+  "name": "amf-core-n2",
+  "plugins": [
     {
-      "cniVersion": "0.3.1",
-      "name": "amf-core-n2",
-      "plugins": [
-        {
-          "type": "ipvlan",
-          "capabilities": {
-            "ips": true
-          },
-          "master": "AMF_N2_MULTUSPARENTINTERFACE",
-          "mode": "l2",
-          "ipam": {
-            "type": "static",
-            "routes": [{ "dst": "CUCP_N2_NETWORKADDRESS", "gw": "AMF_N2_GW" }]
-          }
-        }
-      ]
+      "type": "macvlan",
+      "capabilities": {
+        "ips": true
+      },
+      "master": "ens9f1",
+      "mode": "bridge",
+      "ipam": {
+        "type": "static",
+        "routes": [
+              {
+                "dst": "0.0.0.0/0",
+                "gw": "10.0.22.1"
+              }
+            ]
+      }
     }
+  ]
+}'
