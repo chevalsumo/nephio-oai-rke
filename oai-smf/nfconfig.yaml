@@ -23,4 +23,4 @@ spec:
                   - name: internet
                     sessionType: ipv4
                     dns: 8.8.8.8
-                  
+                    subnet: 10.1.0.0/24
