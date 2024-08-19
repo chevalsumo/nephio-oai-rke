@@ -120,7 +120,7 @@ data:
     # these ports are here for creating the kube-svc should be same for the nf
     nfInterfaces:
       n2: 'n2'
-      sbi: 'ens9f0'
+      sbi: 'eth0'
     ports:
       - name: 'n2'
         port: 38412

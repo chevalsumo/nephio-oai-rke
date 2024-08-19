@@ -119,7 +119,7 @@ data:
         port: 80
         protocol: TCP
     nfInterfaces:
-      sbi: 'ens9f0'
+      sbi: 'eth0'
     compute:
       req:
         cpu: '100m'
