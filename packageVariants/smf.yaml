@@ -1,0 +1,16 @@
+apiVersion: config.porch.kpt.dev/v1alpha1
+kind: PackageVariant
+metadata:
+  name: oai-smf
+spec:
+  upstream:
+    repo: nephio-oai-rke-packages
+    package: oai-smf
+    revision: main
+  downstream:
+    repo: rke-mgmt
+    package: oai-smf
+  annotations:
+    approval.nephio.org/policy: initial
+  injectors:
+  - name: core
