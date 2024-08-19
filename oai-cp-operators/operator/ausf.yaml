@@ -115,7 +115,7 @@ metadata:
 data:
   ausf.yaml: |
     nfInterfaces:
-      sbi: 'eth0'
+      sbi: 'ens9f0'
     ports: 
       - name: 'http'
         port: 80

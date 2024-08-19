@@ -115,12 +115,12 @@ metadata:
 data:
   amf.yaml: |
     nad: 
-      parent: 'eth0'
+      parent: 'ens9f0'
       create: False
     # these ports are here for creating the kube-svc should be same for the nf
     nfInterfaces:
       n2: 'n2'
-      sbi: 'eth0'
+      sbi: 'ens9f0'
     ports:
       - name: 'n2'
         port: 38412

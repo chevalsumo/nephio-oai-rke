@@ -115,7 +115,7 @@ metadata:
 data:
   nrf.yaml: |
     nfInterfaces:
-      sbi: 'eth0'
+      sbi: 'ens9f0'
     ports:
       - name: 'http'
         port: 80
@@ -130,7 +130,7 @@ data:
     logLevel: info
     image: 'docker.io/oaisoftwarealliance/oai-nrf:v2.0.1'
     nfInterfaces:
-      sbi: 'eth0'
+      sbi: 'ens9f0'
     ports:
       - name: 'http'
         port: 80

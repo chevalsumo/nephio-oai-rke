@@ -115,11 +115,11 @@ metadata:
 data:
   smf.yaml: |
     nad: 
-      parent: 'eth0'
+      parent: 'ens9f0'
       create: False
     nfInterfaces:
       n4: 'n4'
-      sbi: 'eth0'
+      sbi: 'ens9f0'
     ports:
       - name: 'n4'
         port: 8805
