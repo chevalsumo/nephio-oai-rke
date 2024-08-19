@@ -10,12 +10,12 @@ spec:
       "name": "smf-core-n4",
       "plugins": [
         {
-          "type": "ipvlan",
+          "type": "macvlan",
           "capabilities": {
             "ips": true
           },
           "master": "ens9f1",
-          "mode": "l2",
+          "mode": "bridge",
           "ipam": {
             "type": "static",
             "routes": [
