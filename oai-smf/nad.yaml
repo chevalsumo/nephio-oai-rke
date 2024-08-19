@@ -14,7 +14,7 @@ spec:
           "capabilities": {
             "ips": true
           },
-          "master": "SMF_N4_MULTUSPARENTINTERFACE",
+          "master": "ens9f1",
           "mode": "l2",
           "ipam": {
             "type": "static",
