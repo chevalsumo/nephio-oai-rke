@@ -1,0 +1,16 @@
+apiVersion: config.porch.kpt.dev/v1alpha1
+kind: PackageVariant
+metadata:
+  name: oai-operators-ran
+spec:
+  upstream:
+    repo: nephio-oai-rke-packages
+    package: oai-ran-operators
+    revision: main
+  downstream:
+    repo: rke-mgmt
+    package: oai-ran-operators
+  annotations:
+    approval.nephio.org/policy: initial
+  injectors:
+  - name: core
