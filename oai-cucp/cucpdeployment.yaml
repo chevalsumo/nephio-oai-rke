@@ -1,0 +1,40 @@
+apiVersion: workload.nephio.org/v1alpha1
+kind: NFDeployment
+metadata:
+  name: cucp-example
+  namespace: example
+spec:
+  provider: cucp.openairinterface.org
+  interfaces:
+  - name: n2
+    ipv4:
+      address: 10.0.22.112/24
+      gateway: 10.0.22.1
+    vlanID: 2
+  - name: f1c
+    ipv4:
+      address: 10.100.50.233/29
+      gateway: 10.100.50.236
+    vlanID: 32
+  - name: e1
+    ipv4:
+      address: 10.101.50.233/29
+      gateway: 10.101.50.236
+    vlanID: 33
+  networkInstances:
+  - name: vpc-ran
+    interfaces:
+    - n2
+  - name: vpc-cudu-f1
+    interfaces:
+    - f1c
+  - name: vpc-cu-e1
+    interfaces:
+    - e1
+  parametersRefs:
+  - name: oai-cucp-config
+    apiVersion: workload.nephio.org/v1alpha1
+    kind: NFConfig
+  - name: cucp-ran-amf-core
+    apiVersion: ref.nephio.org/v1alpha1
+    kind: Config    
