@@ -3,6 +3,7 @@ kind: Service
 metadata:
   name: oai-nrf
   namespace: oai-core
+  metallb.universe.tf/address: "10.0.22.115"
 spec:
   ports:
   - port: 80
@@ -10,4 +11,4 @@ spec:
     targetPort: 80
   selector:
     workload.nephio.org/oai: nrf
-  type: ClusterIP
+  type: LoadBalancer
