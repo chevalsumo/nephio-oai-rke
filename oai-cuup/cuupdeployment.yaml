@@ -8,18 +8,18 @@ spec:
   interfaces:
   - name: n3
     ipv4:
-      address: CUUP_N3_IP 
-      gateway: CUUP_N3_GW 
-    vlanID: 30
+      address: 10.0.22.113/24 
+      gateway: 10.0.22.1
+    vlanID: 3
   - name: f1u
     ipv4:
-      address: CUUP_F1U_IP
-      gateway: CUUP_F1U_GW
+      address: 10.100.50.234/29
+      gateway: 10.100.50.236
     vlanID: 32
   - name: e1
     ipv4:
-      address: CUUP_E1_IP
-      gateway: CUUP_E1_GW
+      address: 10.101.50.234/29
+      gateway: 10.101.50.236
     vlanID: 33
   networkInstances:
   - name: vpc-ran
