@@ -1,0 +1,16 @@
+apiVersion: config.porch.kpt.dev/v1alpha1
+kind: PackageVariant
+metadata:
+  name: oai-du
+spec:
+  upstream:
+    repo: nephio-oai-rke-packages
+    package: oai-du
+    revision: main
+  downstream:
+    repo: rke-mgmt
+    package: oai-du
+  annotations:
+    approval.nephio.org/policy: initial
+  injectors:
+  - name: core
