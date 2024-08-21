@@ -14,10 +14,4 @@ pipeline:
       configPath: apply-replacements-namespace.yaml
     - image: gcr.io/kpt-fn/set-namespace:v0.4.1
       configPath: cm-namespace.yaml
-    - image: ghcr.io/infinitydon/nf-deploy-api-config-replacer:v0.1
-      selectors:
-        - kind: NFDeployment
-        - kind: Config    
-    - image: ghcr.io/infinitydon/nad-api-config-replacer:v0.1
-      selectors:
-        - kind: NetworkAttachmentDefinition      
+   

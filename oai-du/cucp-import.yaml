@@ -21,18 +21,18 @@ spec:
       interfaces:
       - name: n2
         ipv4:
-          address: CUCP_N2_IP
-          gateway: CUCP_N2_GW
-        vlanID: 30
+          address: 10.0.22.112/24
+          gateway: 10.0.22.1
+        vlanID: 2
       - name: f1c
         ipv4:
-          address: CUCP_F1C_IP
-          gateway: CUCP_F1C_GW
+          address: 10.100.50.233/29
+          gateway: 10.100.50.236
         vlanID: 32
       - name: e1
         ipv4:
-          address: CUCP_E1_IP
-          gateway: CUCP_E1_GW
+          address: 10.101.50.233/29
+          gateway: 10.101.50.236
         vlanID: 33
       networkInstances:
       - name: vpc-ran
