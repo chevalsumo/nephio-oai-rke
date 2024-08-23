@@ -10,6 +10,6 @@ spec:
   git:
     repo: http://gitea.gitea:3000/nephio/example-cluster-name.git
     branch: main
-    auth: token
-    secretRef:
-      name: example-cluster-name-access-token-configsync
+    auth: none #token
+    #secretRef:
+    #  name: example-cluster-name-access-token-configsync

@@ -20,6 +20,8 @@ source: |-
     for r in resources:
       if krmfn.match_gvk(r, "configsync.gke.io/v1beta1", "RootSync"):
         r["metadata"]["name"] = clusterName
-        r["spec"]["git"]["repo"] = "http://172.18.0.200:3000/nephio/" + clusterName + ".git"
-        r["spec"]["git"]["secretRef"]["name"] = clusterName + "-access-token-configsync"
+        r["spec"]["git"]["repo"] = "http://rke-gitea/nephio/" + clusterName + ".git"
+        
   set_values(ctx.resource_list["items"])
+
+#r["spec"]["git"]["secretRef"]["name"] = clusterName + "-access-token-configsync"
