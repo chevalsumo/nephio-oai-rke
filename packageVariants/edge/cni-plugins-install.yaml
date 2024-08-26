@@ -1,7 +1,7 @@
 apiVersion: config.porch.kpt.dev/v1alpha1
 kind: PackageVariant
 metadata:
-  name: cni-plugins-install
+  name: edge-cni-plugins-install
 spec:
   upstream:
     repo: nephio-oai-rke-packages

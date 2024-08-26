@@ -1,7 +1,7 @@
 apiVersion: config.porch.kpt.dev/v1alpha1
 kind: PackageVariant
 metadata:
-  name: multus
+  name: edge-multus
 spec:
   upstream:
     repo: nephio-oai-rke-packages

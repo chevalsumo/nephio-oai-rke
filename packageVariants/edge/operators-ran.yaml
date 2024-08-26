@@ -1,14 +1,16 @@
 apiVersion: config.porch.kpt.dev/v1alpha1
 kind: PackageVariant
 metadata:
-  name: edge-local-path-provisioner
+  name: edge-oai-operators-ran
 spec:
   upstream:
     repo: nephio-oai-rke-packages
-    package: infra-setup/local-path-provisioner
+    package: oai-ran-operators
     revision: main
   downstream:
     repo: rke-edge
-    package: local-path-provisioner
+    package: oai-ran-operators
   annotations:
     approval.nephio.org/policy: initial
+  injectors:
+  - name: edge
