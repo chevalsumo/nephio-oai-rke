@@ -20,8 +20,8 @@ spec:
     vlanID: 3
   - name: n4
     ipv4:
-      address: 10.0.22.108/24
-      gateway: 10.0.22.1
+      address: 10.104.50.234/29 #10.0.22.108/24
+      gateway: 10.104.50.236 #10.0.22.1
     vlanID: 4
   - name: n6
     ipv4:
