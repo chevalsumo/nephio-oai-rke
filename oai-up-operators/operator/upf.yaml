@@ -143,7 +143,7 @@ data:
     logLevel: debug
     image: 'docker.io/oaisoftwarealliance/oai-upf:v2.0.0'
     fqdn:
-      nrf: 'oai-nrf'
+      nrf: '10.0.22.115'
       smf: '127.0.0.1'
 ---
 apiVersion: v1
