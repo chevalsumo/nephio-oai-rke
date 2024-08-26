@@ -12,5 +12,3 @@ spec:
     package: local-path-provisioner
   annotations:
     approval.nephio.org/policy: initial
-  injectors:
-  - name: core
