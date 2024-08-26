@@ -7,5 +7,4 @@ metadata: # kpt-merge: /kptfile.kpt.dev
     internal.kpt.dev/upstream-identifier: '|ConfigMap|default|kptfile.kpt.dev'
 data:
   name: example
-  clusterName: example-cluster-name
-  repoRef : 10.0.22.102:3000
+

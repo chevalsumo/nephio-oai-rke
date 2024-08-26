@@ -13,6 +13,7 @@ source: |-
     for r in resources:
       if krmfn.match_gvk(r, "v1", "ConfigMap") and krmfn.match_name(r, "kptfile.kpt.dev"):
         clusterName = r["data"]["name"]
+      if krmfn.match_gvk(r, "v1", "ConfigMap") and krmfn.match_name(r, "gitea-repo"):
         repoRef = r["data"]["repoRef"]
     # if a WorkloadCluster exists, and was injected, then use that for the name
     for r in resources:
