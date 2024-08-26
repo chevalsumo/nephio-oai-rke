@@ -15,8 +15,8 @@ spec:
   interfaces:
   - name: n3
     ipv4:
-      address: 10.0.22.109/24
-      gateway: 10.0.22.1
+      address: 10.103.50.234/29
+      gateway: 10.103.50.236
     vlanID: 3
   - name: n4
     ipv4:
@@ -25,8 +25,8 @@ spec:
     vlanID: 4
   - name: n6
     ipv4:
-      address: 10.0.22.110/24
-      gateway: 10.0.22.1
+      address: 10.106.50.10/24
+      gateway: 10.106.50.1
     vlanID: 6
   networkInstances:
   - name: vpc-internal
