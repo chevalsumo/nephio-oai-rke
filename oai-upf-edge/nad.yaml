@@ -67,7 +67,13 @@ spec:
       "master": "ens3f0",
       "mode": "bridge",
       "ipam": {
-        "type": "static"
+        "type": "static",
+        "routes": [
+              {
+                "dst": "0.0.0.0/0",
+                "gw": "10.0.22.1"
+              }
+            ]
       }
     }
      ]
