@@ -4,20 +4,6 @@ metadata:
   name: rootsync
   annotations:
     config.kubernetes.io/local-config: "true"
-upstream:
-  type: git
-  git:
-    repo: https://github.com/nephio-project/catalog
-    directory: /nephio/optional/rootsync
-    ref: main
-  updateStrategy: resource-merge
-upstreamLock:
-  type: git
-  git:
-    repo: https://github.com/nephio-project/catalog
-    directory: /nephio/optional/rootsync
-    ref: main
-    commit: 0dac2f7882ccd0a2ad2c2518b7191248d83a747d
 info:
   description: Provisions rootsync to configure configsync for a Nephio cluster
 pipeline:
