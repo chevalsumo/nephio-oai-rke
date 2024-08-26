@@ -21,7 +21,7 @@ source: |-
     for r in resources:
       if krmfn.match_gvk(r, "configsync.gke.io/v1beta1", "RootSync"):
         r["metadata"]["name"] = clusterName
-        r["spec"]["git"]["repo"] = "http://" + repoRef + /nephio/" + clusterName + ".git"
+        r["spec"]["git"]["repo"] = "http://" + repoRef + "/nephio/" + clusterName + ".git"
         
   set_values(ctx.resource_list["items"])
 
