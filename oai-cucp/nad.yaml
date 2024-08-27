@@ -14,7 +14,7 @@ spec:
       "capabilities": {
         "ips": true
       },
-      "master": "ens9f1",
+      "master": "ens3f0",
       "mode": "bridge",
       "ipam": {
         "type": "static",
@@ -45,7 +45,7 @@ spec:
       "capabilities": {
         "ips": true
       },
-      "master": "ens9f1",
+      "master": "ens3f0",
       "mode": "bridge",
       "ipam": {
         "type": "static"
@@ -70,7 +70,7 @@ spec:
       "capabilities": {
         "ips": true
       },
-      "master": "ens9f1",
+      "master": "ens3f0",
       "mode": "bridge",
       "ipam": {
         "type": "static"
