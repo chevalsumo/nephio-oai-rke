@@ -8,8 +8,8 @@ spec:
   interfaces:
   - name: n2
     ipv4:
-      address: 10.0.22.112/24
-      gateway: 10.0.22.1
+      address: 10.102.50.234/24
+      gateway: 10.102.50.236
     vlanID: 2
   - name: f1c
     ipv4:
