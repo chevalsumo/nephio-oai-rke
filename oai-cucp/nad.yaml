@@ -1,13 +1,13 @@
 apiVersion: k8s.cni.cncf.io/v1
 kind: NetworkAttachmentDefinition
 metadata:
-  name: cucp-core-n2
+  name: cucp-edge-n2
   namespace: example
 spec:
   config: |
     {
       "cniVersion": "0.3.1",
-      "name": "cucp-core-n2",
+      "name": "cucp-edge-n2",
       "plugins": [
     {
       "type": "macvlan",
@@ -26,13 +26,13 @@ spec:
 apiVersion: k8s.cni.cncf.io/v1
 kind: NetworkAttachmentDefinition
 metadata:
-  name: cucp-core-f1c
+  name: cucp-edge-f1c
   namespace: example
 spec:
   config: |
     {
       "cniVersion": "0.3.1",
-      "name": "cucp-core-f1c",
+      "name": "cucp-edge-f1c",
       "plugins": [
     {
       "type": "macvlan",
@@ -51,13 +51,13 @@ spec:
 apiVersion: k8s.cni.cncf.io/v1
 kind: NetworkAttachmentDefinition
 metadata:
-  name: cucp-core-e1
+  name: cucp-edge-e1
   namespace: example
 spec:
   config: |
     {
       "cniVersion": "0.3.1",
-      "name": "cucp-core-e1",
+      "name": "cucp-edge-e1",
       "plugins": [
     {
       "type": "macvlan",
