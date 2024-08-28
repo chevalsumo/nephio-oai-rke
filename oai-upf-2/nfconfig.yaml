@@ -20,7 +20,7 @@ spec:
               - sst: 1
                 sd: ffffff
                 dnnInfo:
-                  - name: internet
+                  - name: orange
                     sessionType: ipv4
                     dns: 8.8.8.8
-                    subnet: 10.1.0.0/24
+                    subnet: 10.2.0.0/24
