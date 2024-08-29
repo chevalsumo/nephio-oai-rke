@@ -1,0 +1,47 @@
+apiVersion: config.porch.kpt.dev/v1alpha1
+kind: PackageVariant
+metadata:
+  name: oai-nr-ue
+spec:
+  upstream:
+    repo: nephio-oai-rke-packages
+    package: oai-nr-ue
+    revision: main
+  downstream:
+    repo: rke-edge
+    package: oai-nr-ue
+  annotations:
+    approval.nephio.org/policy: initial
+  injectors:
+  - name: edge
+  pipeline:
+    mutators:
+    - image: gcr.io/kpt-fn/search-replace:v0.2.0
+      configMap:
+          by-value-regex: example
+          put-value: test
+    - image: gcr.io/kpt-fn/search-replace:v0.2.0
+      configMap:
+          by-path: data.dnn
+          by-value: dnn
+          put-value: internet
+    - image: gcr.io/kpt-fn/search-replace:v0.2.0
+      configMap:
+          by-path: data.fullImsi
+          by-value: fullImsi
+          put-value: "208990100001128"
+    - image: gcr.io/kpt-fn/search-replace:v0.2.0
+      configMap:
+          by-path: data.nssaiSd
+          by-value: nssaiSd
+          put-value: ""16777215"""
+    - image: gcr.io/kpt-fn/search-replace:v0.2.0
+      configMap:
+          by-path: data.nssaiSst
+          by-value: nssaiSst
+          put-value: ""1"""
+    - image: gcr.io/kpt-fn/search-replace:v0.2.0
+      configMap:
+          by-path: data.rfSimulator
+          by-value: rfSimulator
+          put-value: oai-gnb-du.oai-ran-du

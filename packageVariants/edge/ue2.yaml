@@ -1,0 +1,16 @@
+apiVersion: config.porch.kpt.dev/v1alpha1
+kind: PackageVariant
+metadata:
+  name: oai-nr-ue-2
+spec:
+  upstream:
+    repo: nephio-oai-rke-packages
+    package: oai-nr-ue-2
+    revision: main
+  downstream:
+    repo: rke-edge
+    package: oai-nr-ue-2
+  annotations:
+    approval.nephio.org/policy: initial
+  injectors:
+  - name: edge

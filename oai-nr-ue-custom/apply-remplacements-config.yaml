@@ -1,0 +1,41 @@
+apiVersion: fn.kpt.dev/v1alpha1
+kind: ApplyReplacements
+metadata:
+  name: propagate-name
+  annotations:
+    config.kubernetes.io/local-config: "true"
+replacements:
+- source:
+    kind: ConfigMap
+    name: kptfile.kpt.dev
+    fieldPath: data.name
+  targets:
+  - select:
+      kind: ConfigMap
+      name: example-configmap
+    fieldPaths:
+    - metadata.name
+    options:
+      delimiter: '-'
+      index: 0
+  - select:
+      kind: ServiceAccount
+    fieldPaths:
+    - metadata.name
+    options:
+      delimiter: '-'
+      index: 0
+  - select:
+      kind: Deployment
+    fieldPaths:
+    - metadata.name
+    - metadata.labels.app.kubernetes.io/name
+    - spec.selector.matchLabels.app.kubernetes.io/name
+    - spec.template.metadata.labels.app.kubernetes.io/name
+  - select:
+      kind: Deployment
+    fieldPaths:
+    - spec.template.spec.containers.[name=nrue].env.*.valueFrom.configMapKeyRef.name
+    options:
+      delimiter: '-'
+      index: 0

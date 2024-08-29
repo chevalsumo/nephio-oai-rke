@@ -1,0 +1,31 @@
+apiVersion: fn.kpt.dev/v1alpha1
+kind: StarlarkRun
+metadata: # kpt-merge: /generate-values
+  name: generate-values
+  annotations:
+    config.kubernetes.io/local-config: "true"
+    internal.kpt.dev/upstream-identifier: fn.kpt.dev|StarlarkRun|default|generate-values
+source: |
+  load("krmfn.star", "krmfn")
+
+  def set_values(resources):
+    # this package can be cloned manually and used without injection; 
+    # in that case base the repository name on the package name
+    for r in resources:
+      if krmfn.match_gvk(r, "v1", "ConfigMap") and krmfn.match_name(r, "kptfile.kpt.dev"):
+        name = r["data"]["name"]
+        imsi = r["data"]["fullImsi"]
+        nsaaisd = r["data"]["nssaiSd"]
+        nssaisst = r["data"]["nssaiSst"]
+        dnn = r["data"]["dnn"]
+        rfsimulator = r["data"]["rfSimulator"]
+
+    for r in resources:
+      if krmfn.match_gvk(r, "v1", "ConfigMap") and krmfn.match_name(r, name + "-configmap"):
+        r["data"]["fullImsi"] = imsi
+        r["data"]["nssaiSd"] = nsaaisd
+        r["data"]["nssaiSst"] = nssaisst
+        r["data"]["dnn"] = dnn
+        r["data"]["rfSimulator"] = rfsimulator
+
+  set_values(ctx.resource_list["items"])
