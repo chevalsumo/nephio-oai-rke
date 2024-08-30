@@ -1,7 +1,7 @@
 apiVersion: config.porch.kpt.dev/v1alpha1
 kind: PackageVariant
 metadata:
-  name: oai-ue-orange-3
+  name: oai-ue-orange-4
 spec:
   upstream:
     repo: nephio-oai-rke-packages
@@ -9,7 +9,7 @@ spec:
     revision: main
   downstream:
     repo: rke-edge
-    package: oai-ue-orange-3
+    package: oai-ue-orange-4
 
   injectors:
   - name: edge
@@ -21,7 +21,6 @@ spec:
       configMap:
              source: |
                 def mutate(config):
-                    config["metadata"]["name"] = oai-ue-orange-3
                     config['data']['dnn'] = 'orange'
                     config['data']['fullImsi'] = '208990100001132'
                     config['data']['nssaiSd'] = '16777215'
