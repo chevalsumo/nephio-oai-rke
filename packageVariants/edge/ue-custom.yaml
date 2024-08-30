@@ -1,7 +1,7 @@
 apiVersion: config.porch.kpt.dev/v1alpha1
 kind: PackageVariant
 metadata:
-  name: oai-ue-internet-2
+  name: oai-ue-orange-3
 spec:
   upstream:
     repo: nephio-oai-rke-packages
@@ -9,7 +9,7 @@ spec:
     revision: main
   downstream:
     repo: rke-edge
-    package: oai-ue-internet-2
+    package: oai-ue-orange-3
 
   injectors:
   - name: edge
@@ -21,17 +21,15 @@ spec:
       configMap:
              source: |
                 def mutate(config):
-                    config['data']['dnn'] = 'internet'
-                    config['data']['fullImsi'] = '208990100001130'
+                    config["metadata"]["name"] = oai-ue-orange-3
+                    config['data']['dnn'] = 'orange'
+                    config['data']['fullImsi'] = '208990100001132'
                     config['data']['nssaiSd'] = '16777215'
                     config['data']['nssaiSst'] = '1'
                     config['data']['rfSimulator'] = 'oai-gnb-du.oai-ran-du'
 
                 res = ctx.resource_list["items"]
                 for r in res:
-                  if r["kind"] == "ConfigMap" and r["metadata"]["name"] == ("example-configmap"):
+                  if (r["kind"] == "ConfigMap") and (r["metadata"]["name"] != "kptfile.kpt.dev"):
                     mutate(r)
-    - image: gcr.io/kpt-fn/search-replace:v0.2.0
-      configMap:
-          by-value-regex: example
-          put-value: oai-ue-internet-2
+   

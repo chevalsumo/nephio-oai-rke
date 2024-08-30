@@ -3,6 +3,7 @@ kind: ConfigMap
 metadata:
   name: example-configmap
   namespace: oai-ue
+  
 data:
   dnn: dnn
   fullImsi: fullImsi
