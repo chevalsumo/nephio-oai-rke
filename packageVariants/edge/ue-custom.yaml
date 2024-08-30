@@ -1,47 +1,37 @@
 apiVersion: config.porch.kpt.dev/v1alpha1
 kind: PackageVariant
 metadata:
-  name: oai-nr-ue
+  name: oai-ue-internet-2
 spec:
   upstream:
     repo: nephio-oai-rke-packages
-    package: oai-nr-ue
+    package: oai-nr-ue-custom
     revision: main
   downstream:
     repo: rke-edge
-    package: oai-nr-ue
-  annotations:
-    approval.nephio.org/policy: initial
+    package: oai-ue-internet-2
+
   injectors:
   - name: edge
+  annotations:
+    approval.nephio.org/policy: initial
   pipeline:
     mutators:
+    - image: gcr.io/kpt-fn/starlark:v0.5.0
+      configMap:
+             source: |
+                def mutate(config):
+                    config['data']['dnn'] = 'internet'
+                    config['data']['fullImsi'] = '208990100001130'
+                    config['data']['nssaiSd'] = '16777215'
+                    config['data']['nssaiSst'] = '1'
+                    config['data']['rfSimulator'] = 'oai-gnb-du.oai-ran-du'
+
+                res = ctx.resource_list["items"]
+                for r in res:
+                  if r["kind"] == "ConfigMap" and r["metadata"]["name"] == ("example-configmap"):
+                    mutate(r)
     - image: gcr.io/kpt-fn/search-replace:v0.2.0
       configMap:
           by-value-regex: example
-          put-value: test
-    - image: gcr.io/kpt-fn/search-replace:v0.2.0
-      configMap:
-          by-path: data.dnn
-          by-value: dnn
-          put-value: internet
-    - image: gcr.io/kpt-fn/search-replace:v0.2.0
-      configMap:
-          by-path: data.fullImsi
-          by-value: fullImsi
-          put-value: "208990100001128"
-    - image: gcr.io/kpt-fn/search-replace:v0.2.0
-      configMap:
-          by-path: data.nssaiSd
-          by-value: nssaiSd
-          put-value: ""16777215"""
-    - image: gcr.io/kpt-fn/search-replace:v0.2.0
-      configMap:
-          by-path: data.nssaiSst
-          by-value: nssaiSst
-          put-value: ""1"""
-    - image: gcr.io/kpt-fn/search-replace:v0.2.0
-      configMap:
-          by-path: data.rfSimulator
-          by-value: rfSimulator
-          put-value: oai-gnb-du.oai-ran-du
+          put-value: oai-ue-internet-2
