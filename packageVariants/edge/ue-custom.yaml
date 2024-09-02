@@ -10,7 +10,6 @@ spec:
   downstream:
     repo: rke-edge
     package: oai-ue-orange-5
-
   injectors:
   - name: edge
   annotations:
@@ -22,7 +21,7 @@ spec:
              source: |
                 def mutate(config):
                     config['data']['dnn'] = 'orange'
-                    config['data']['fullImsi'] = '208990100001139'
+                    config['data']['fullImsi'] = '208990100001132'
                     config['data']['nssaiSd'] = '16777215'
                     config['data']['nssaiSst'] = '1'
                     config['data']['rfSimulator'] = 'oai-gnb-du.oai-ran-du'
