@@ -1,7 +1,7 @@
 apiVersion: config.porch.kpt.dev/v1alpha1
 kind: PackageVariant
 metadata:
-  name: oai-ue-orange-4
+  name: oai-ue-orange-5
 spec:
   upstream:
     repo: nephio-oai-rke-packages
@@ -22,7 +22,7 @@ spec:
              source: |
                 def mutate(config):
                     config['data']['dnn'] = 'orange'
-                    config['data']['fullImsi'] = '208990100001132'
+                    config['data']['fullImsi'] = '208990100001139'
                     config['data']['nssaiSd'] = '16777215'
                     config['data']['nssaiSst'] = '1'
                     config['data']['rfSimulator'] = 'oai-gnb-du.oai-ran-du'
@@ -31,4 +31,28 @@ spec:
                 for r in res:
                   if (r["kind"] == "ConfigMap") and (r["metadata"]["name"] != "kptfile.kpt.dev"):
                     mutate(r)
-   
+
+    - image: gcr.io/kpt-fn/starlark:v0.5.0
+      configMap:
+             source: |
+              ue_name = "oai-ue-orange-5"
+              def mutate(content):
+                  if type(content) == type({}):
+                      print("here")
+                      for key, value in content.items():
+                          if type(value) == type("t"):
+                            a = value.replace("example", ue_name)
+                            print(a)
+                            content[key] = a
+                          else: 
+                            mutate(value)
+                  elif type(content) == type([]):
+                      for index in range(len(content)):
+                          mutate(content[index])
+                  elif type(content) == type("t"):
+                      content.replace("example", ue_name)
+
+              res = ctx.resource_list["items"]
+              for re in res:
+                  #if(re["kind"] == "ConfigMap"):
+                    mutate(re)

@@ -1,0 +1,13 @@
+apiVersion: kpt.dev/v1
+kind: Kptfile
+metadata:
+  name: toto
+  annotations:
+    config.kubernetes.io/local-config: "true"
+info:
+  description: this package is used to deploy oai-nr-ue-1 with a dnn to attach with oai-upf-edge01
+pipeline:
+  mutators:
+  - image: gcr.io/kpt-fn/starlark:v0.5.0
+    configMap:
+      source: "ue_name = \"toto\"\n\ndef mutate(content):\n    if type(content) == type({}):\n        print(\"here\")\n        for key, value in content.items():\n            if type(value) == type(\"t\"):\n              a = value.replace(\"toto\", ue_name)\n              print(a)\n              content[key] = a\n            else: \n              mutate(value)\n    elif type(content) == type([]):\n        for index in range(len(content)):\n            mutate(content[index])\n    elif type(content) == type(\"t\"):\n        content.replace(\"toto\", ue_name)\n\nres = ctx.resource_list[\"items\"]\nfor re in res:\n    #if(re[\"kind\"] == \"ConfigMap\"):\n      mutate(re)\n  \n     \n    \n"

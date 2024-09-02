@@ -1,0 +1,78 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: toto
+  namespace: oai-ue
+  labels:
+    app.kubernetes.io/name: toto
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: toto
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: toto
+      annotations: null
+    spec:
+      securityContext:
+        runAsGroup: 0
+        runAsUser: 0
+      containers:
+      - name: nrue
+        image: docker.io/oaisoftwarealliance/oai-nr-ue:2023.w19
+        securityContext:
+          privileged: true
+        env:
+        - name: TZ
+          valueFrom:
+            configMapKeyRef:
+              name: toto-configmap
+              key: timeZone
+        - name: RFSIMULATOR
+          valueFrom:
+            configMapKeyRef:
+              name: toto-configmap
+              key: rfSimulator
+        - name: FULL_IMSI
+          valueFrom:
+            configMapKeyRef:
+              name: toto-configmap
+              key: fullImsi
+        - name: FULL_KEY
+          valueFrom:
+            configMapKeyRef:
+              name: toto-configmap
+              key: fullKey
+        - name: OPC
+          valueFrom:
+            configMapKeyRef:
+              name: toto-configmap
+              key: opc
+        - name: DNN
+          valueFrom:
+            configMapKeyRef:
+              name: toto-configmap
+              key: dnn
+        - name: NSSAI_SST
+          valueFrom:
+            configMapKeyRef:
+              name: toto-configmap
+              key: nssaiSst
+        - name: NSSAI_SD
+          valueFrom:
+            configMapKeyRef:
+              name: toto-configmap
+              key: nssaiSd
+        - name: USE_ADDITIONAL_OPTIONS
+          valueFrom:
+            configMapKeyRef:
+              name: toto-configmap
+              key: useAdditionalOptions
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      serviceAccountName: toto-sa
+      terminationGracePeriodSeconds: 5

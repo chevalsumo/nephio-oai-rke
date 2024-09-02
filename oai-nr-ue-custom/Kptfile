@@ -1,10 +1,38 @@
 apiVersion: kpt.dev/v1
 kind: Kptfile
 metadata:
-  name: example
+  name: oai-custom-package
   annotations:
     config.kubernetes.io/local-config: "true"
 info:
   description: this package is used to deploy oai-nr-ue-1 with a dnn to attach with oai-upf-edge01
+pipeline:
+    mutators:
+    - image: gcr.io/kpt-fn/starlark:v0.5.0
+      configMap:
+             source: |
+              ue_name = "toto"
+              def mutate(content):
+                  if type(content) == type({}):
+                      print("here")
+                      for key, value in content.items():
+                          if type(value) == type("t"):
+                            a = value.replace("example", ue_name)
+                            print(a)
+                            content[key] = a
+                          else: 
+                            mutate(value)
+                  elif type(content) == type([]):
+                      for index in range(len(content)):
+                          mutate(content[index])
+                  elif type(content) == type("t"):
+                      content.replace("example", ue_name)
 
+              res = ctx.resource_list["items"]
+              for re in res:
+                  if(re["kind"] != "Kptfile"):
+                    mutate(re)
+                
+                   
+                  
   
