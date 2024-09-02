@@ -9,7 +9,7 @@ spec:
     revision: main
   downstream:
     repo: rke-edge
-    package: oai-ue-orange-4
+    package: oai-ue-orange-5
 
   injectors:
   - name: edge
@@ -38,12 +38,9 @@ spec:
               ue_name = "oai-ue-orange-5"
               def mutate(content):
                   if type(content) == type({}):
-                      print("here")
                       for key, value in content.items():
                           if type(value) == type("t"):
-                            a = value.replace("example", ue_name)
-                            print(a)
-                            content[key] = a
+                            content[key] = value.replace("example", ue_name)
                           else: 
                             mutate(value)
                   elif type(content) == type([]):
@@ -54,5 +51,5 @@ spec:
 
               res = ctx.resource_list["items"]
               for re in res:
-                  #if(re["kind"] == "ConfigMap"):
+                  if(re["kind"] != "Kptfile"):
                     mutate(re)
