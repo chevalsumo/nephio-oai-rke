@@ -1,0 +1,19 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: nephio-webui
+  namespace: nephio-webui
+spec:
+  rules:
+    - host: rke-nephio-webui
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: nephio-webui
+                port:
+                  number: 7007
+
+

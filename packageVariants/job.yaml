@@ -1,0 +1,43 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: authentication-subscription-job
+  namespace: oai-core
+spec:
+  ttlSecondsAfterFinished: 10
+  template:
+    spec:
+      containers:
+      - name: auth-subscription-check
+        image: "bitnami/mysql"
+        command: ["sh", "-c"]
+        env:
+        - name: UEID
+          value: "38"  # Remplacez par la valeur UEID souhaitée
+        - name: DB_HOST
+          value: "mysql"  
+        - name: MYSQL_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: mysql
+              key: mysql-password
+        - name: MYSQL_USER
+          value: "test"
+        - name: MYSQL_DATABASE
+          value: "oai_db"
+        args:
+          - |
+            mysql -h ${DB_HOST} -u ${MYSQL_USER} -p${MYSQL_PASSWORD} ${MYSQL_DATABASE} -e "          
+            -- Insérer l'UEID si il n'existe pas
+            INSERT IGNORE INTO AuthenticationSubscription 
+              (ueid, authenticationMethod, encPermanentKey, protectionParameterId, sequenceNumber, 
+              authenticationManagementField, algorithmId, encOpcKey, encTopcKey, 
+              vectorGenerationInHss, n5gcAuthMethod, rgAuthenticationInd, supi) 
+              VALUES 
+              (${UEID}, '5G_AKA', 'fec86ba6eb707ed08905757b1bb44b8f', 'fec86ba6eb707ed08905757b1bb44b8f', 
+              '{\"sqn\": \"000000000020\", \"sqnScheme\": \"NON_TIME_BASED\", \"lastIndexes\": {\"ausf\": 0}}', 
+              '8000', 'c42449363bbad02b66d16bc975d77cc1', NULL, NULL, NULL, NULL, NULL, ${UEID});
+            Select ueid from AuthenticationSubscription where ueid = ${UEID}
+              "
+      restartPolicy: Never
+  backoffLimit: 4
