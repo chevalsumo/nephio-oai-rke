@@ -1,0 +1,22 @@
+apiVersion: kpt.dev/v1
+kind: Kptfile
+metadata:
+  name: gitea
+  annotations:
+    config.kubernetes.io/local-config: "true"
+upstream:
+  type: git
+  git:
+    repo: https://github.com/nephio-project/catalog
+    directory: /distros/sandbox/gitea
+    ref: main
+  updateStrategy: resource-merge
+upstreamLock:
+  type: git
+  git:
+    repo: https://github.com/nephio-project/catalog
+    directory: /distros/sandbox/gitea
+    ref: main
+    commit: a947d11c21635c5807522f558b60dde4f74e2036
+info:
+  description: Gitea package to deploy a gitea server in a gitea namespace

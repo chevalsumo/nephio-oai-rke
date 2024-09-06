@@ -1,0 +1,25 @@
+apiVersion: v1
+kind: Service
+metadata: # kpt-merge: gitea/gitea
+  name: gitea
+  namespace: gitea
+  labels:
+    app: gitea
+    app.kubernetes.io/name: gitea
+    app.kubernetes.io/instance: gitea
+  annotations:
+    internal.kpt.dev/upstream-identifier: '|Service|gitea|gitea'
+spec:
+  type: LoadBalancer
+  loadBalancerIP: 10.0.22.102
+  ports:
+  - name: ssh
+    port: 22
+    targetPort: 22
+    protocol: TCP
+  - name: http
+    port: 3000
+    targetPort: 3000
+  selector:
+    app.kubernetes.io/name: gitea
+    app.kubernetes.io/instance: gitea
