@@ -1,0 +1,72 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: oai-upf-operator-custom
+  namespace: oai-cn-operators
+  labels:
+    app.kubernetes.io/name: oai-upf
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: oai-upf
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: oai-upf
+    spec:
+      securityContext:
+        runAsGroup: 0
+        runAsUser: 0
+      imagePullSecrets:
+      - name: regcred
+      containers:
+      - name: upf-operator
+        image: docker.io/ryadh30/oai-upf-controller:internet #"docker.io/arorasagar/oai-upf-controller:v2.0.1"
+        imagePullPolicy: Always
+        env:
+          - name: 'NF_TYPE'
+            value: 'upf'
+          - name: 'DEPLOYMENT_FETCH_INTERVAL'
+            value: '1'
+          - name: 'DEPLOYMENT_FETCH_ITERATIONS'
+            value: '100'
+          - name: 'NF_CONF_PATH'
+            value: '/tmp/nf/upf.yaml'
+          - name: 'OP_CONF_PATH'
+            value: '/tmp/op/upf.yaml'
+          - name: 'TESTING'
+            value: 'no'
+          - name: 'KUBERNETES_BASE_URL'
+            value: 'https://kubernetes.default.svc'
+        volumeMounts:
+          - mountPath: /tmp/op
+            name: opconf
+          - mountPath: /tmp/nf
+            name: nfconf
+        resources:
+          requests:
+            memory: "256Mi"
+            cpu: "100m"
+          limits:
+            memory: "256Mi"
+            cpu: "100m"
+        # livenessProbe:
+        #   httpGet:
+        #     path: /healthz
+        #     port: 8080
+        #   initialDelaySeconds: 2
+        #   periodSeconds: 5
+      volumes:
+      - configMap:
+          name: oai-upf-op-conf
+        name: opconf
+      - configMap:
+          name: oai-upf-nf-conf
+        name: nfconf
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      serviceAccountName: oai-upf-operator
+      terminationGracePeriodSeconds: 5

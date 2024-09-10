@@ -17,7 +17,7 @@
 apiVersion: v1
 kind: ServiceAccount
 metadata:
-  namespace: oai-cn-operators
+  namespace: default
   name: oai-upf-operator
 ---
 apiVersion: rbac.authorization.k8s.io/v1
@@ -45,7 +45,7 @@ rules:
     resources: [nfdeployments,nfdeployments/status,nfconfigs,nfdeployments/finalizers]
     verbs: [get, list, watch, update, patch]
   - apiGroups: [""]
-    resources: [pods,serviceaccounts,configmaps,services,services/finalizers,serviceaccounts/finalizers]
+    resources: [pods, serviceaccounts, configmaps, services, persistentvolumeclaims,services/finalizers,serviceaccounts/finalizers]
     verbs:  [get, list, watch, create, update, patch, delete]
   - apiGroups: ["apps","extensions"]
     resources: [deployments,deployments/status,deployments/finalizers]
@@ -71,13 +71,13 @@ roleRef:
 subjects:
   - kind: ServiceAccount
     name: oai-upf-operator
-    namespace: oai-cn-operators
+    namespace: default
 ## In case you want to restrict to a namespace uncomment this role and remove the rights from cluster role
 #---
 # apiVersion: rbac.authorization.k8s.io/v1
 # kind: Role
 # metadata:
-#   namespace: oai-cn-operators
+#   namespace: default
 #   name: oai-upf-operator-role
 # rules:
 #   # Framework: posting the events about the handlers progress/errors.
@@ -97,7 +97,7 @@ subjects:
 # apiVersion: rbac.authorization.k8s.io/v1
 # kind: RoleBinding
 # metadata:
-#   namespace: oai-cn-operators
+#   namespace: default
 #   name: oai-upf-operator-rolebinding-namespaced
 # roleRef:
 #   apiGroup: rbac.authorization.k8s.io
@@ -111,7 +111,6 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: oai-upf-op-conf
-  namespace: oai-cn-operators
 data:
   upf.yaml: |
     nad: 
@@ -140,17 +139,16 @@ data:
       limits:
         cpu: '100m'
         memory: '512Mi'
-    logLevel: debug
+    logLevel: info
     image: 'docker.io/oaisoftwarealliance/oai-upf:v2.0.0'
     fqdn:
-      nrf: '10.0.22.115'
-      smf: '127.0.0.1'
+      nrf: 'localhost'
+      smf: 'localhost'
 ---
 apiVersion: v1
 kind: ConfigMap
 metadata:
   name: oai-upf-nf-conf
-  namespace: oai-cn-operators
 data:
   upf.yaml: |
     ############# Common configuration
@@ -235,8 +233,7 @@ data:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: oai-upf-operator
-  namespace: oai-cn-operators
+  name: oai-upf-controller
   labels:
     app.kubernetes.io/name: oai-upf
 spec:
@@ -257,9 +254,9 @@ spec:
       imagePullSecrets:
       - name: regcred
       containers:
-      - name: upf-operator
-        image: docker.io/ryadh30/oai-upf-controller:internet  #"docker.io/arorasagar/oai-upf-controller:v2.0.1"
-        imagePullPolicy: Always
+      - name: upf-controller
+        image: docker.io/arorasagar/oai-upf-controller:v2.0.1
+        imagePullPolicy: IfNotPresent
         env:
           - name: 'NF_TYPE'
             value: 'upf'
@@ -272,9 +269,9 @@ spec:
           - name: 'OP_CONF_PATH'
             value: '/tmp/op/upf.yaml'
           - name: 'TESTING'
-            value: 'no'
+            value: 'yes'
           - name: 'KUBERNETES_BASE_URL'
-            value: 'https://kubernetes.default.svc'
+            value: 'http://kubernetes.default.svc'
         volumeMounts:
           - mountPath: /tmp/op
             name: opconf
