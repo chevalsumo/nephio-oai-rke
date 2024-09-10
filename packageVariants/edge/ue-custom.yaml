@@ -1,7 +1,7 @@
 apiVersion: config.porch.kpt.dev/v1alpha1
 kind: PackageVariant
 metadata:
-  name: oai-ue-orange-5
+  name: oai-nr-ue-1
 spec:
   upstream:
     repo: nephio-oai-rke-packages
@@ -9,7 +9,7 @@ spec:
     revision: main
   downstream:
     repo: rke-edge
-    package: oai-ue-orange-5
+    package: oai-nr-ue-1
   injectors:
   - name: edge
   annotations:
@@ -19,22 +19,28 @@ spec:
     - image: gcr.io/kpt-fn/starlark:v0.5.0
       configMap:
              source: |
+                create_ns = True
+
                 def mutate(config):
-                    config['data']['dnn'] = 'orange'
-                    config['data']['fullImsi'] = '208990100001132'
+                    config['data']['dnn'] = 'internet'
+                    config['data']['fullImsi'] = '208990100001128'
                     config['data']['nssaiSd'] = '16777215'
                     config['data']['nssaiSst'] = '1'
                     config['data']['rfSimulator'] = 'oai-gnb-du.oai-ran-du'
-
                 res = ctx.resource_list["items"]
                 for r in res:
                   if (r["kind"] == "ConfigMap") and (r["metadata"]["name"] != "kptfile.kpt.dev"):
                     mutate(r)
+                  elif (r["kind"] == "Namespace"):  
+                    ns = r 
+                    break
+                if not create_ns:
+                  res.remove(ns)   
 
     - image: gcr.io/kpt-fn/starlark:v0.5.0
       configMap:
              source: |
-              ue_name = "oai-ue-orange-5"
+              ue_name = "oai-nr-ue-1"
               def mutate(content):
                   if type(content) == type({}):
                       for key, value in content.items():
