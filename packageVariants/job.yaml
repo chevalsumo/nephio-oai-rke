@@ -13,7 +13,7 @@ spec:
         command: ["sh", "-c"]
         env:
         - name: UEID
-          value: "38"  # Remplacez par la valeur UEID souhaitée
+          value: "38"  # Remplacez par la valeur du IMSI souhaitée
         - name: DB_HOST
           value: "mysql"  
         - name: MYSQL_PASSWORD
