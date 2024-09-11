@@ -58,6 +58,7 @@ def create_deployment(name: str=None,
                     ports: list=None,
                     nrf_svc:str=None,
                     interfaces: list=None,
+                    dnn_subnets: list=None,
                     config_map: str=None, 
                     nf_type: str=None, 
                     sa_name: str=None,
@@ -83,6 +84,8 @@ def create_deployment(name: str=None,
     :type ports: list
     :param interfaces: list of interfaces to attach with this NF
     :type interfaces: list
+    :param dnn_subnets: list of DNNs subnets
+    :type dnn_subnets: list
     :param config_map: config_map name
     :type config_map: str
     :param nf_type: nf_type name
@@ -111,6 +114,9 @@ def create_deployment(name: str=None,
     if nrf_svc is None:
         nrf_svc = "oai-nrf" #default value
     URL = f"curl --connect-timeout 1 --head -X GET http://{nrf_svc}/nnrf-nfm/v1/nf-instances?nf-type='NRF' --http2-prior-knowledge"
+
+    forward_subnets_n6 = " && ".join([f"iptables -t nat -A POSTROUTING -s {subnet} -o n6 -j MASQUERADE" for subnet in dnn_subnets])
+
     deployment = {
                   "apiVersion": "apps/v1",
                   "kind": "Deployment",
@@ -175,8 +181,8 @@ def create_deployment(name: str=None,
                                         "/bin/sh",
                                         "-c"
                                         ],
-                                        "args": [
-                                        "sysctl -w net.ipv4.ip_forward=1 && iptables -t nat -A POSTROUTING -s 10.1.0.0/24 -o n6 -j MASQUERADE && /openair-{nf_type}/bin/oai_{nf_type} -c /openair-{nf_type}/etc/{nf_type}.yaml -o"
+                                        "args" : [
+                                         f"sysctl -w net.ipv4.ip_forward=1 && {forward_subnets_n6} && /openair-{nf_type}/bin/oai_{nf_type} -c /openair-{nf_type}/etc/{nf_type}.yaml -o"
                                         ]
                           }
                         ],

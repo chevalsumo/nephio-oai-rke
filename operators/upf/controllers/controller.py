@@ -69,6 +69,7 @@ def create_fn(spec, namespace, logger, patch, **kwargs):
     if 'fqdn' in conf.keys() and 'nrf' in conf['fqdn'].keys():
         nrf_svc = conf['fqdn']['nrf']
     data_networks = [y for i in conf['networkInstances'] if 'dataNetworks' in i for y in i['dataNetworks']] #taking out all the dataNetworks
+    dnn_subnets = []
     if len(data_networks)!=0 and 'PLMN' in conf.keys():
         for data_network in data_networks:
             # TODO: Consider nssai from all PLMNs
@@ -76,6 +77,8 @@ def create_fn(spec, namespace, logger, patch, **kwargs):
                 for dnn in nssai['dnnInfo']:
                     if dnn['name'] == data_network['name']:
                         dnn.update({'subnet':data_network['pool'][0]['prefix']})
+                        dnn_subnets.append(dnn["subnet"])
+
 
     # jinja rendering for nf configuration
     try:
@@ -152,6 +155,7 @@ def create_fn(spec, namespace, logger, patch, **kwargs):
                                    sa_name=sa_status['name'],
                                    nf_type=NF_TYPE,
                                    logger=logger,
+                                   dnn_subnets= dnn_subnets,
                                    kopf=kopf)
     patch.status['conditions'][0] = {
              'lastTransitionTime':datetime.now().strftime(TIME_FORMAT),
@@ -204,6 +208,7 @@ def reconcile_fn(spec, namespace, logger, patch, **kwargs):
     if 'fqdn' in conf.keys() and 'nrf' in conf['fqdn'].keys():
         nrf_svc = conf['fqdn']['nrf']
     data_networks = [y for i in conf['networkInstances'] if 'dataNetworks' in i for y in i['dataNetworks']] #taking out all the dataNetworks
+    dnn_subnets = []
     if len(data_networks)!=0 and 'PLMN' in conf.keys():
         for data_network in data_networks:
             # TODO: Consider nssai from all PLMNs
@@ -211,6 +216,7 @@ def reconcile_fn(spec, namespace, logger, patch, **kwargs):
                 for dnn in nssai['dnnInfo']:
                     if dnn['name'] == data_network['name']:
                         dnn.update({'subnet':data_network['pool'][0]['prefix']})
+                        dnn_subnets.append(dnn["subnet"])
     #fetch the current svc and declaring kubernetes api object
     try:
         api = kubernetes.client.CoreV1Api()
@@ -318,6 +324,7 @@ def reconcile_fn(spec, namespace, logger, patch, **kwargs):
                                            sa_name=sa_name,
                                            nf_type=NF_TYPE,
                                            logger=logger,
+                                           dnn_subnets= dnn_subnets,
                                            kopf=kopf)
 
             patch.status['conditions'][0] = {
@@ -497,6 +504,7 @@ def update_fn(diff, spec, namespace, logger, patch, **kwargs):
     if 'fqdn' in conf.keys() and 'nrf' in conf['fqdn'].keys():
         nrf_svc = conf['fqdn']['nrf']
     data_networks = [y for i in conf['networkInstances'] if 'dataNetworks' in i for y in i['dataNetworks']] #taking out all the dataNetworks
+    dnn_subnets = []
     if len(data_networks)!=0 and 'PLMN' in conf.keys():
         for data_network in data_networks:
             # TODO: Consider nssai from all PLMNs
@@ -504,6 +512,7 @@ def update_fn(diff, spec, namespace, logger, patch, **kwargs):
                 for dnn in nssai['dnnInfo']:
                     if dnn['name'] == data_network['name']:
                         dnn.update({'subnet':data_network['pool'][0]['prefix']})
+                        dnn_subnets.append(dnn["subnet"])
     #fetch the current svc and declaring kubernetes api object
     try:
         api = kubernetes.client.CoreV1Api()
@@ -549,6 +558,7 @@ def update_fn(diff, spec, namespace, logger, patch, **kwargs):
                                   sa_name=sa_name,
                                   nf_type=NF_TYPE,
                                   logger=logger,
+                                  dnn_subnets= dnn_subnets,
                                   kopf=kopf)
 
     if 'error' not in deployment.keys() or not deployment['error']:
