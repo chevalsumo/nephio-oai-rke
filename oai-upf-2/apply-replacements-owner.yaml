@@ -8,7 +8,7 @@ replacements:
 - source:
     kind: ConfigMap #WorkloadCluster
     name: kptfile.kpt.dev
-    fieldPath: data.name
+    fieldPath: data.package-path
   targets:
   - select:
       kind: NFDeployment
