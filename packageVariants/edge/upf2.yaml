@@ -9,7 +9,7 @@ spec:
     revision: main
   downstream:
     repo: rke-edge
-    package: upf4
+    package: oai-upf4
   #annotations:
   #  approval.nephio.org/policy: initial
   injectors:

@@ -22,19 +22,19 @@ replacements:
     fieldPaths:
     - metadata.name
     options:
-      delimiter: '-'
+      delimiter: '_'
       index: 0
   - select:
       kind: NetworkAttachmentDefinition
     fieldPaths:
     - metadata.name
     options:
-      delimiter: '-'
+      delimiter: '_'
       index: 1
   - select:
       kind: Capacity
     fieldPaths:
     - metadata.annotations.[specializer.nephio.org/owner]
     options:
-      delimiter: '-'
+      delimiter: '_'
       index: 1
