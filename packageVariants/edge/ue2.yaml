@@ -5,12 +5,56 @@ metadata:
 spec:
   upstream:
     repo: nephio-oai-rke-packages
-    package: oai-nr-ue-2
+    package: oai-nr-ue-custom
     revision: main
   downstream:
     repo: rke-edge
     package: oai-nr-ue-2
-  annotations:
-    approval.nephio.org/policy: initial
   injectors:
   - name: edge
+  annotations:
+    approval.nephio.org/policy: initial
+  pipeline:
+    mutators:
+    - image: gcr.io/kpt-fn/starlark:v0.5.0
+      configMap:
+             source: |
+                create_ns = False
+
+                def mutate(config):
+                    config['data']['dnn'] = 'orange'
+                    config['data']['fullImsi'] = '208990100001130'
+                    config['data']['nssaiSd'] = '16777215'
+                    config['data']['nssaiSst'] = '1'
+                    config['data']['rfSimulator'] = 'oai-gnb-du.oai-ran-du'
+                res = ctx.resource_list["items"]
+                for r in res:
+                  if (r["kind"] == "ConfigMap") and (r["metadata"]["name"] != "kptfile.kpt.dev"):
+                    mutate(r)
+                  elif (r["kind"] == "Namespace"):  
+                    ns = r 
+                    break
+                if not create_ns:
+                  res.remove(ns)   
+
+    - image: gcr.io/kpt-fn/starlark:v0.5.0
+      configMap:
+             source: |
+              ue_name = "oai-nr-ue-2"
+              def mutate(content):
+                  if type(content) == type({}):
+                      for key, value in content.items():
+                          if type(value) == type("t"):
+                            content[key] = value.replace("example", ue_name)
+                          else: 
+                            mutate(value)
+                  elif type(content) == type([]):
+                      for index in range(len(content)):
+                          mutate(content[index])
+                  elif type(content) == type("t"):
+                      content.replace("example", ue_name)
+
+              res = ctx.resource_list["items"]
+              for re in res:
+                  if(re["kind"] != "Kptfile"):
+                    mutate(re)

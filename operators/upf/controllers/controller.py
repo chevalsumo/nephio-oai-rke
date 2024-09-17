@@ -65,11 +65,12 @@ def create_fn(spec, namespace, logger, patch, **kwargs):
                 conf.update({_config['kind']:_config['spec']})
         elif _temp['status'] and param_ref['kind']=='Config':
             conf.update(_temp['output']['spec']['config']['spec'])
+    kopf.info(kwargs['body'], reason='Logging', message=f"conf: {conf}", )
     nf_ports = conf['ports']
     if 'fqdn' in conf.keys() and 'nrf' in conf['fqdn'].keys():
         nrf_svc = conf['fqdn']['nrf']
     data_networks = [y for i in conf['networkInstances'] if 'dataNetworks' in i for y in i['dataNetworks']] #taking out all the dataNetworks
-    dnn_subnets = []
+    
     if len(data_networks)!=0 and 'PLMN' in conf.keys():
         for data_network in data_networks:
             # TODO: Consider nssai from all PLMNs
@@ -77,7 +78,12 @@ def create_fn(spec, namespace, logger, patch, **kwargs):
                 for dnn in nssai['dnnInfo']:
                     if dnn['name'] == data_network['name']:
                         dnn.update({'subnet':data_network['pool'][0]['prefix']})
-                        dnn_subnets.append(dnn["subnet"])
+                        
+    dnn_subnets = []
+    for plmn in conf['PLMN']['plmnInfo']:
+        for nssai in plmn['nssai']:
+            for dnn in nssai['dnnInfo']:
+                dnn_subnets.append(dnn["subnet"]) 
 
 
     # jinja rendering for nf configuration
@@ -94,7 +100,7 @@ def create_fn(spec, namespace, logger, patch, **kwargs):
         logger.error(f"Exception with reason {e}, in patching {name} in namespace {namespace}")
         raise kopf.PermanentError(f"Exception with reason {e}, in patching {name} in namespace {namespace}")
 
-    svc_status = create_svc(name=f"oai-{NF_TYPE}",#kwargs['body']['metadata']['name'],
+    svc_status = create_svc(name=kwargs['body']['metadata']['name'],#kwargs['body']['metadata']['name'],
                           namespace=namespace,
                           labels=LABEL,
                           logger=logger,
@@ -214,20 +220,22 @@ def reconcile_fn(spec, namespace, logger, patch, **kwargs):
             # TODO: Consider nssai from all PLMNs
             for nssai in conf['PLMN']['plmnInfo'][0]['nssai']:
                 for dnn in nssai['dnnInfo']:
+                    kopf.info(kwargs['body'], reason='Logging', message=f"{dnn}", )
+                    dnn_subnets.append(dnn["subnet"])
                     if dnn['name'] == data_network['name']:
                         dnn.update({'subnet':data_network['pool'][0]['prefix']})
-                        dnn_subnets.append(dnn["subnet"])
+                        
     #fetch the current svc and declaring kubernetes api object
     try:
         api = kubernetes.client.CoreV1Api()
         obj = api.read_namespaced_service(
             namespace=namespace,
-            name=f"oai-{NF_TYPE}"
+            name=kwargs['body']['metadata']['name']
             ).to_dict()
         svc_status = obj['metadata']
     except ApiException as e:
         if e.status == 404:
-            svc_status = create_svc(name=f"oai-{NF_TYPE}",#kwargs['body']['metadata']['name'],
+            svc_status = create_svc(name=kwargs['body']['metadata']['name'],#kwargs['body']['metadata']['name'],
                                   namespace=namespace,
                                   labels=LABEL,
                                   logger=logger,
@@ -388,7 +396,7 @@ def delete_fn(spec, name, namespace, logger, **kwargs):
         api = kubernetes.client.CoreV1Api()
         obj = api.delete_namespaced_service(
                 namespace=namespace,
-                name=f"oai-{NF_TYPE}",
+                name=kwargs['body']['metadata']['name'],
             )
         logger.debug(f"Service deleted for network function: {name} from namespace: {namespace}")
     except ApiException as e:
@@ -510,20 +518,22 @@ def update_fn(diff, spec, namespace, logger, patch, **kwargs):
             # TODO: Consider nssai from all PLMNs
             for nssai in conf['PLMN']['plmnInfo'][0]['nssai']:
                 for dnn in nssai['dnnInfo']:
+                    kopf.info(kwargs['body'], reason='Logging', message=f"{dnn}", )
+                    dnn_subnets.append(dnn["subnet"])
                     if dnn['name'] == data_network['name']:
                         dnn.update({'subnet':data_network['pool'][0]['prefix']})
-                        dnn_subnets.append(dnn["subnet"])
+                       
     #fetch the current svc and declaring kubernetes api object
     try:
         api = kubernetes.client.CoreV1Api()
         obj = api.read_namespaced_service(
             namespace=namespace,
-            name=f"oai-{NF_TYPE}"
+            name=kwargs['body']['metadata']['name']
             ).to_dict()
         svc_status = obj['metadata']
     except ApiException as e:
         if e.status == 404:
-            svc_status = create_svc(name=f"oai-{NF_TYPE}",#kwargs['body']['metadata']['name'],
+            svc_status = create_svc(name=kwargs['body']['metadata']['name'],#kwargs['body']['metadata']['name'],
                                   namespace=namespace,
                                   labels=LABEL,
                                   logger=logger,

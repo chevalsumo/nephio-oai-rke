@@ -1,8 +1,7 @@
----
 apiVersion: workload.nephio.org/v1alpha1
 kind: NFConfig
 metadata:
-  name: oai-upf2-config
+  name: example-config
   namespace: upf-example
 spec:
   configRefs:
@@ -11,7 +10,7 @@ spec:
       metadata:
         name: oai-plmn
       spec:
-        plmnInfo:
+        plmnInfo: # kpt-set: ${plmn-info}
           - plmnID:
               mcc: "208"
               mnc: "99"

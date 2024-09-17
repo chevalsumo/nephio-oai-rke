@@ -116,7 +116,7 @@ def create_deployment(name: str=None,
     URL = f"curl --connect-timeout 1 --head -X GET http://{nrf_svc}/nnrf-nfm/v1/nf-instances?nf-type='NRF' --http2-prior-knowledge"
 
     forward_subnets_n6 = " && ".join([f"iptables -t nat -A POSTROUTING -s {subnet} -o n6 -j MASQUERADE" for subnet in dnn_subnets])
-
+    logger.info(f"{dnn_subnets}")
     deployment = {
                   "apiVersion": "apps/v1",
                   "kind": "Deployment",
@@ -182,7 +182,7 @@ def create_deployment(name: str=None,
                                         "-c"
                                         ],
                                         "args" : [
-                                         f"sysctl -w net.ipv4.ip_forward=1 && {forward_subnets_n6} && /openair-{nf_type}/bin/oai_{nf_type} -c /openair-{nf_type}/etc/{nf_type}.yaml -o"
+                                        f"sysctl -w net.ipv4.ip_forward=1 {'&& ' + forward_subnets_n6 if forward_subnets_n6 else ''}&& /openair-{nf_type}/bin/oai_{nf_type} -c /openair-{nf_type}/etc/{nf_type}.yaml -o"
                                         ]
                           }
                         ],

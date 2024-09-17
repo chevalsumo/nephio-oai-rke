@@ -6,7 +6,7 @@ metadata:
     config.kubernetes.io/local-config: "true"
 replacements:
 - source:
-    kind: WorkloadCluster
+    kind: #=WorkloadCluster
     name: workload-cluster
     fieldPath: spec.clusterName
   targets:
