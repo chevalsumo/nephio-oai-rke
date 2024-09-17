@@ -6,9 +6,9 @@ metadata:
     config.kubernetes.io/local-config: "true"
 replacements:
 - source:
-    kind: WorkloadCluster #ConfigMap #
-    name:  workload-cluster #kptfile.kpt.dev
-    fieldPath: spec.clusterName #data.package-path
+    kind: ConfigMap #WorkloadCluster #
+    name: kptfile.kpt.dev  #workload-cluster
+    fieldPath: data.package-path #spec.clusterName 
   targets:
   - select:
       kind: NFDeployment
