@@ -15,7 +15,7 @@ replacements:
     fieldPaths:
     - metadata.name
     options:
-      delimiter: '-'
+      delimiter: '_'
       index: 1
   - select:
       kind: NFConfig

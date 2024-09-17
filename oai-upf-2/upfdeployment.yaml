@@ -1,7 +1,7 @@
 apiVersion: workload.nephio.org/v1alpha1
 kind: NFDeployment
 metadata:
-  name: NF-example
+  name: NF_example
   namespace: upf-example
 spec:
   provider: upf.openairinterface.org
