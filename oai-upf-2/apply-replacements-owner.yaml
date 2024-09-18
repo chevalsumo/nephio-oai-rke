@@ -33,7 +33,7 @@ replacements:
     fieldPaths:
     - metadata.name
     options:
-      delimiter: '-'
+      delimiter: '-n'
       index: 0
   - select:
       kind: Capacity
@@ -41,4 +41,4 @@ replacements:
     - metadata.annotations.[specializer.nephio.org/owner]
     options:
       delimiter: '.'
-      index: 3
+      index: 4
