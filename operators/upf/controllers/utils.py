@@ -495,6 +495,7 @@ def create_svc(name: str=None,
 
     kopf.adopt(svc)  # includes namespace, name, existing labels
     kopf.label(svc, labels, nested=['spec.template'])
+    logger.info(f"Service: {svc}") #logger 
     creation_timestamp =  None
     try:
         api = kubernetes.client.CoreV1Api()

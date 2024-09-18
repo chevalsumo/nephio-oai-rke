@@ -14,9 +14,6 @@ replacements:
       kind: NFDeployment
     fieldPaths:
     - metadata.name
-    options:
-      delimiter: '.'
-      index: 1
   - select:
       kind: NFDeployment
     fieldPaths:
@@ -36,12 +33,12 @@ replacements:
     fieldPaths:
     - metadata.name
     options:
-      delimiter: '.'
-      index: 1
+      delimiter: '-'
+      index: 0
   - select:
       kind: Capacity
     fieldPaths:
     - metadata.annotations.[specializer.nephio.org/owner]
     options:
       delimiter: '.'
-      index: 1
+      index: 3
