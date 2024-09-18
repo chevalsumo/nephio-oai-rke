@@ -15,26 +15,33 @@ replacements:
     fieldPaths:
     - metadata.name
     options:
-      delimiter: '_'
+      delimiter: '.'
       index: 1
+  - select:
+      kind: NFDeployment
+    fieldPaths:
+    - spec.parametersRefs.[kind=NFConfig].name
+    options:
+      delimiter: '.'
+      index: 0
   - select:
       kind: NFConfig
     fieldPaths:
     - metadata.name
     options:
-      delimiter: '_'
+      delimiter: '.'
       index: 0
   - select:
       kind: NetworkAttachmentDefinition
     fieldPaths:
     - metadata.name
     options:
-      delimiter: '_'
+      delimiter: '.'
       index: 1
   - select:
       kind: Capacity
     fieldPaths:
     - metadata.annotations.[specializer.nephio.org/owner]
     options:
-      delimiter: '_'
+      delimiter: '.'
       index: 1

@@ -1,7 +1,7 @@
 apiVersion: workload.nephio.org/v1alpha1
 kind: NFConfig
 metadata:
-  name: example_config
+  name: example.config
   namespace: upf-example
 spec:
   configRefs:

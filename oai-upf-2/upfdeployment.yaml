@@ -1,7 +1,7 @@
 apiVersion: workload.nephio.org/v1alpha1
 kind: NFDeployment
 metadata:
-  name: NF_example
+  name: NF.example
   namespace: upf-example
 spec:
   provider: upf.openairinterface.org
@@ -9,7 +9,7 @@ spec:
     maxDownlinkThroughput: 5G
     maxUplinkThroughput: 5G
   parametersRefs:
-  - name: oai-upf2-config
+  - name: example.config
     apiVersion: workload.nephio.org/v1alpha1
     kind: NFConfig
   interfaces:
