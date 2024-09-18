@@ -3,7 +3,7 @@ kind: StarlarkRun
 metadata:
   name: set-nad-name
   annotations:
-  config.kubernetes.io/local-config: "true"
+    config.kubernetes.io/local-config: "true"
 source: |-
   for resource in ctx.resource_list["items"]:
     if resource.get("kind") == "NetworkAttachmentDefinition":
