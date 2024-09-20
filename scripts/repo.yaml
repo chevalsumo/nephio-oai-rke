@@ -1,0 +1,15 @@
+apiVersion: config.porch.kpt.dev/v1alpha1
+kind: Repository
+metadata:
+  name: nephio-oai-rke-packages
+  namespace: default
+spec:
+  content: Package
+  deployment: false
+  git:
+    branch: main
+    directory: /
+    repo: https://github.com/chevalsumo/nephio-oai-rke.git
+    secretRef:
+      name: ""
+  type: git
