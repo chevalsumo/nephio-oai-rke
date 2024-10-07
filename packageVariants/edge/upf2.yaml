@@ -5,7 +5,7 @@ metadata:
 spec:
   upstream:
     repo: nephio-oai-rke-packages
-    package: oai-upf-2
+    package: oai-upf-custom
     revision: main
   downstream:
     repo: rke-edge
@@ -27,10 +27,10 @@ spec:
                 - sst: 1
                   sd: ffffff
                   dnnInfo:
-                    - name: free
+                    - name: ooredoo
                       sessionType: ipv4
                       dns: 8.8.8.8
-                      subnet: 10.2.0.0/24
+                      subnet: 10.3.0.0/24
           n3-address: 10.103.50.237/29
           n3-gateway: 10.103.50.236        
           n4-address: 10.104.50.237/29
