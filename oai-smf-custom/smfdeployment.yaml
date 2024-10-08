@@ -19,6 +19,6 @@ spec:
     interfaces:
     - n4
   parametersRefs:
-  - name: oai-smf-config
+  - name: example.config
     apiVersion: workload.nephio.org/v1alpha1
     kind: NFConfig
