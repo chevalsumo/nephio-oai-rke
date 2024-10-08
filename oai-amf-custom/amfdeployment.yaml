@@ -11,7 +11,7 @@ spec:
   - name: n2
     ipv4:
       address: 10.102.50.233/24 # kpt-set: ${n2-address}
-      gateway: 10.102.50.236 # kpt-set: ${n2-address}
+      gateway: 10.102.50.236 # kpt-set: ${n2-gateway}
     vlanID: 2
   networkInstances:
   - name: vpc-ran
