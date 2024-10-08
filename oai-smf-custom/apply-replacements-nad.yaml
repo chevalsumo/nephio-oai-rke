@@ -1,0 +1,11 @@
+apiVersion: fn.kpt.dev/v1alpha1
+kind: StarlarkRun
+metadata:
+  name: set-nad-name
+  annotations:
+    config.kubernetes.io/local-config: "true"
+source: |-
+  for resource in ctx.resource_list["items"]:
+    if resource.get("kind") == "NetworkAttachmentDefinition":
+            name = resource["metadata"]["name"]
+            resource["spec"]["config"] = resource["spec"]["config"].replace("example", name)

@@ -1,0 +1,33 @@
+---
+apiVersion: workload.nephio.org/v1alpha1
+kind: NFConfig
+metadata:
+  name: example.config
+  namespace: example
+spec:
+  configRefs:
+    - apiVersion: cellular.nephio.org/v1alpha1
+      kind: PLMN
+      metadata:
+        name: oai-plmn
+      spec:
+        plmnInfo: # kpt-set: ${plmn-info}
+          - plmnID:
+              mcc: "208"
+              mnc: "99"
+            tac: 1
+            nssai:
+              - sst: 1
+                sd: ffffff
+                dnnInfo:
+                  - name: internet
+                    sessionType: ipv4
+                    dns: 8.8.8.8
+                    subnet: 10.1.0.0/24
+              - sst: 1
+                sd: ffffff
+                dnnInfo:
+                  - name: orange
+                    sessionType: ipv4
+                    dns: 8.8.8.8
+                    subnet: 10.2.0.0/24
