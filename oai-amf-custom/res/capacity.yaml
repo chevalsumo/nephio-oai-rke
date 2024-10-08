@@ -1,0 +1,10 @@
+apiVersion: req.nephio.org/v1alpha1
+kind: Capacity
+metadata:
+  name: control-plane
+  annotations:
+    config.kubernetes.io/local-config: "true"
+    specializer.nephio.org/owner: workload.nephio.org/v1alpha1.NFDeployment.oai-amf-1
+    specializer.nephio.org/namespace: oai-core
+spec:
+  maxSubscribers: 1000

@@ -1,0 +1,49 @@
+apiVersion: config.porch.kpt.dev/v1alpha1
+kind: PackageVariant
+metadata:
+  name: oai-amf-custom
+spec:
+  upstream:
+    repo: nephio-oai-rke-packages
+    package: oai-amf-custom
+    revision: main
+  downstream:
+    repo: rke-mgmt
+    package: oai-amf
+  annotations:
+    approval.nephio.org/policy: initial
+  injectors:
+  - name: core
+  pipeline:
+    mutators:
+      - image: gcr.io/kpt-fn/apply-setters:v0.2.0
+        configMap:
+          plmn-info: |-
+            - plmnID:
+                mcc: "208"
+                mnc: "99"
+              tac: 1
+              nssai:
+              - sst: 1
+                sd: ffffff
+                dnnInfo:
+                - name: internet
+                  sessionType: ipv4
+                  dns: 8.8.8.8
+                  subnet: 10.1.0.0/24
+              - sst: 1
+                sd: ffffff
+                dnnInfo:
+                - name: orange
+                  sessionType: ipv4
+                  dns: 8.8.8.8
+                  subnet: 10.2.0.0/24
+              - sst: 1
+                sd: ffffff
+                dnnInfo:
+                  - name: ooredoo
+                    sessionType: ipv4
+                    dns: 8.8.8.8
+                    subnet: 10.3.0.0/24
+          n2-address: 10.102.50.233/24
+          n2-gateway: 10.102.50.236

@@ -1,8 +1,8 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: kptfile.kpt.dev
+  name: namespace
   annotations:
     config.kubernetes.io/local-config: "true"
 data:
-  name: oai-amf-test
+  namespace: oai-core

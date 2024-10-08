@@ -1,0 +1,23 @@
+apiVersion: workload.nephio.org/v1alpha1
+kind: NFDeployment
+metadata:
+  name: example
+  namespace: amf-example
+spec:
+  provider: amf.openairinterface.org
+  capacity:
+    maxSubscribers: 1000
+  interfaces:
+  - name: n2
+    ipv4:
+      address: 10.102.50.233/24 # kpt-set: ${n2-address}
+      gateway: 10.102.50.236 # kpt-set: ${n2-address}
+    vlanID: 2
+  networkInstances:
+  - name: vpc-ran
+    interfaces:
+    - n2
+  parametersRefs:
+  - name: example.config
+    apiVersion: workload.nephio.org/v1alpha1
+    kind: NFConfig

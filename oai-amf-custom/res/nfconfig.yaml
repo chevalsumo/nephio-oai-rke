@@ -1,0 +1,37 @@
+apiVersion: workload.nephio.org/v1alpha1
+kind: NFConfig
+metadata:
+  name: oai-amf-1.config
+  namespace: oai-core
+spec:
+  configRefs:
+    - apiVersion: cellular.nephio.org/v1alpha1
+      kind: PLMN
+      metadata:
+        name: oai-plmn
+      spec:
+        plmnInfo: # kpt-set: ${plmn-info}
+          - plmnID:
+              mcc: "208"
+              mnc: "99"
+            tac: 1
+            nssai:
+              - sst: 1
+                sd: ffffff
+                dnnInfo:
+                  - name: ooredoo
+                    sessionType: ipv4
+                    dns: 8.8.8.8
+                    subnet: 10.3.0.0/24
+    - apiVersion: cellular.nephio.org/v1alpha1
+      kind: ServedGUAMI
+      metadata:
+        name: oai-served-guami
+      spec:
+        - amfID:
+            amfPointer: "01"
+            amfRegionID: "01"
+            amfSetID: "001"
+          plmnID:
+            mcc: "208"
+            mnc: "99"
