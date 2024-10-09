@@ -1,11 +1,11 @@
 apiVersion: config.porch.kpt.dev/v1alpha1
 kind: PackageVariant
 metadata:
-  name: oai-smf
+  name: oai-smf-custom
 spec:
   upstream:
     repo: nephio-oai-rke-packages
-    package: oai-smf
+    package: oai-smf-custom
     revision: main
   downstream:
     repo: rke-mgmt
@@ -14,3 +14,23 @@ spec:
     approval.nephio.org/policy: initial
   injectors:
   - name: core
+  pipeline:
+    mutators:
+      - image: gcr.io/kpt-fn/apply-setters:v0.2.0
+        configMap:
+          plmn-info: |-
+            - plmnID:
+                mcc: "208"
+                mnc: "99"
+              tac: 1
+              nssai:
+                - sst: 1
+                  sd: ffffff
+                  dnnInfo:
+                    - name: internet
+                      sessionType: ipv4
+                      dns: 8.8.8.8
+                      subnet: 10.1.0.0/24
+          n4-address: 10.104.50.233/29 
+          n4-gateway: 10.104.50.236
+

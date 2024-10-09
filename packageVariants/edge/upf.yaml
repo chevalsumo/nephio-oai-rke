@@ -5,7 +5,7 @@ metadata:
 spec:
   upstream:
     repo: nephio-oai-rke-packages
-    package: oai-upf-edge
+    package: oai-upf-custom
     revision: main
   downstream:
     repo: rke-edge
@@ -14,3 +14,27 @@ spec:
     approval.nephio.org/policy: initial
   injectors:
   - name: edge
+    create_ns: true
+  pipeline:
+    mutators:
+      - image: gcr.io/kpt-fn/apply-setters:v0.2.0
+        configMap:
+          plmn-info: |-
+            - plmnID:
+                mcc: "208"
+                mnc: "99"
+              tac: 1
+              nssai:
+                - sst: 1
+                  sd: ffffff
+                  dnnInfo:
+                    - name: internet
+                      sessionType: ipv4
+                      dns: 8.8.8.8
+                      subnet: 10.1.0.0/24
+          n3-address: 10.103.50.234/29
+          n3-gateway: 10.103.50.236        
+          n4-address: 10.104.50.234/29
+          n4-gateway: 10.104.50.236
+          n6-address: 10.0.22.114/24
+          n6-gateway: 10.0.22.1
