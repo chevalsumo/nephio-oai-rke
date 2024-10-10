@@ -13,8 +13,10 @@ spec:
   annotations:
     approval.nephio.org/policy: initial
   injectors:
-  - name: edge
-    create_ns: true
+    - name: edge
+  packageContext:
+    data: 
+     create_ns: "true"
   pipeline:
     mutators:
       - image: gcr.io/kpt-fn/apply-setters:v0.2.0
