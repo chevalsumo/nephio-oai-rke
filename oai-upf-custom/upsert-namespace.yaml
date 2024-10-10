@@ -7,13 +7,13 @@ metadata:
 source: |-
         res = ctx.resource_list["items"]
         for r in res:
-          if r["metadata"]["name"] == "kptfile.kpt.dev":
+          if r["metadata"]["name"] == "namespace":
             print(r)
             create_ns = r["data"]["create_ns"]
             break
         for r in res:
           if (r["kind"] == "Namespace"):  
             ns = r 
-            break
+            break 
         if not bool(create_ns):
           res.remove(ns)   

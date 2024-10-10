@@ -14,13 +14,11 @@ spec:
     approval.nephio.org/policy: initial
   injectors:
     - name: edge
-  packageContext:
-    data: 
-     create_ns: "true"
   pipeline:
     mutators:
       - image: gcr.io/kpt-fn/apply-setters:v0.2.0
         configMap:
+          create_ns: true
           plmn-info: |-
             - plmnID:
                 mcc: "208"
