@@ -18,7 +18,7 @@ spec:
     mutators:
       - image: gcr.io/kpt-fn/apply-setters:v0.2.0
         configMap:
-          create_ns: true
+          create_ns: "true"
           plmn-info: |-
             - plmnID:
                 mcc: "208"

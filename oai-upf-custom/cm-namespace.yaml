@@ -6,4 +6,4 @@ metadata:
     config.kubernetes.io/local-config: "true"
 data:
   namespace: oai-core
-  create_ns: true
+  create_ns: true # kpt-set: ${create_ns}
