@@ -1,0 +1,16 @@
+apiVersion: config.porch.kpt.dev/v1alpha1
+kind: PackageVariant
+metadata:
+  name: mgmt-multus
+spec:
+  upstream:
+    repo: nephio-oai-rke-packages
+    package: infra-setup/multus
+    revision: main
+  downstream:
+    repo: rke-mgmt
+    package: multus
+  annotations:
+    approval.nephio.org/policy: initial
+  injectors:
+  - name: core

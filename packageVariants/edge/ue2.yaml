@@ -20,7 +20,6 @@ spec:
       configMap:
              source: |
                 create_ns = False
-
                 def mutate(config):
                     config['data']['dnn'] = 'orange'
                     config['data']['fullImsi'] = '208990100001130'

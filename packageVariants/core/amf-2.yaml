@@ -1,24 +1,24 @@
 apiVersion: config.porch.kpt.dev/v1alpha1
 kind: PackageVariant
 metadata:
-  name: edge-oai-upf-2
+  name: oai-amf-custom
 spec:
   upstream:
     repo: nephio-oai-rke-packages
-    package: oai-upf-custom
+    package: oai-amf-custom
     revision: main
   downstream:
-    repo: rke-edge
-    package: oai-upf-2
+    repo: rke-mgmt
+    package: oai-amf
   annotations:
     approval.nephio.org/policy: initial
   injectors:
-  - name: edge
+  - name: core
+    
   pipeline:
     mutators:
       - image: gcr.io/kpt-fn/apply-setters:v0.2.0
         configMap:
-          create_ns: "false"
           plmn-info: |-
             - plmnID:
                 mcc: "208"
@@ -28,13 +28,16 @@ spec:
                 - sst: 1
                   sd: ffffff
                   dnnInfo:
+                    - name: internet
+                      sessionType: ipv4
+                      dns: 8.8.8.8
+                      subnet: 10.1.0.0/24
+                - sst: 1
+                  sd: ffffff
+                  dnnInfo:
                     - name: orange
                       sessionType: ipv4
                       dns: 8.8.8.8
                       subnet: 10.2.0.0/24
-          n3-address: 10.103.50.237/29
-          n3-gateway: 10.103.50.236        
-          n4-address: 10.104.50.237/29
-          n4-gateway: 10.104.50.236
-          n6-address: 10.0.22.117/24
-          n6-gateway: 10.0.22.1
+          n2-address: 10.102.50.233/24
+          n2-gateway: 10.102.50.236
